@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+<style>
+    body{
+        font-family: ariel;
+        background-color: whitesmoke;
+        margin: 0;
+        padding: 0;
+    }
+    .navbar {
+        background-color: #2D5539;
+        padding: 1rem;
+        color: white;
+        }
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        margin-right: 20px;
+        }
+    .navbar a:hover {
+        background-color: #00FF00;
+        text-decoration: underline;
+        }
+    .content{
+        padding: 20px;
+    }
+    .router-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+    .router-kort{
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px black;
+    }
+    .router-kort h3{
+        margin-top: 0;
+        color: #2D5539;
+        border-bottom: 2px solid white;
+        padding-bottom: 10px;
+    }
+    .router-info{
+        margin: 10px 0;
+    }
+    .router-info label{
+        font-weight: bold;
+        color: grey;
+    }
+    .router-info span{
+        float: right;
+    }
+    .online{
+        color: #00FF00;
+    }
+    .offline{
+        color: red;
+    }
+</style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{{url_for('dashboard')}}">Dashboard</a>
+        <a href="{{url_for('logout')}}" style="float: right;">Log ud</a>
+    </div>
+
+    <div class="router-grid">
+        {% for router in routers %}
+        <div class="router-kort">
+            <h3>{{router.Navn}}</h3>
+            <div class="router-info">
+                <label>Model:</label>
+                <span>{{router.Model}}</span>
+            </div>
+            <div class="router-info">
+                <label>IP:</label>
+                <span>{{router.IP}}</span>
+            </div>
+            <div class="router-info">
+                <label>Uptime</label>
+                <span class="{% if router.Uptime != 'ukendt'%}status-up{%else%}status-down{%endif%}">
+                    {{router.Uptime}}
+                </span>
+            </div>
+            <div class="router-info">
+                <label>Lokation:</label>
+                <span>{{router.Lokation}}</span>
+            </div>
+            <div style="text-align: right; margin-top: 15px;">
+                <a href="{{url_for('router', router_name=router.Navn)}}"
+                    style="color: #2D5539; font-weight: bold;">
+                    Se detaljer
+                </a>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</body>
+</html>
